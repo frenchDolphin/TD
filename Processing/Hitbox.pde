@@ -17,7 +17,7 @@ class Hitbox {
 }
 
 class Range {
-  int min, max;
+  final int min, max;
 
   Range(JSONArray values) {
     this(values.getInt(0, 0), values.getInt(1, 0));
@@ -29,6 +29,6 @@ class Range {
   }
 
   int getRandom() {
-    return int(random(min, max));
+    return int(random(min, max + 1));
   }
 }

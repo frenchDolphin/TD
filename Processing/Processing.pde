@@ -2,6 +2,8 @@ static final ArrayList<Attack> attacks = new ArrayList();
 static final ArrayList<Entity> heroes = new ArrayList();
 static final ArrayList<Entity> enemies = new ArrayList();
 
+Team party;
+
 void setup() {
   fullScreen();
 
@@ -9,7 +11,9 @@ void setup() {
   loadEntities("heroes.json", heroes);
   loadEntities("enemies.json", enemies);
 
-  Scene.setCurrentScene(new BattleScene());
+  party = new Team(heroes, 0, 0, 1);
+  Team versus = new Team(enemies, 0, 0);
+  Scene.setCurrentScene(new BattleScene(party, versus));
 }
 
 void loadAttacks(String src, ArrayList out) {
@@ -49,7 +53,6 @@ void loadEntities(String src, ArrayList out) {
 
       Range damage = new Range(entity.getJSONArray("damage"));
       int[] attackIndices = entity.getJSONArray("attacks").getIntArray();
-      // load attacks here!!!
 
       Entity loaded = new Entity(id, name, health, damage, def, dodge, speed, attackIndices);
       out.add(loaded);

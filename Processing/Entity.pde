@@ -1,15 +1,16 @@
 class Entity {
 
-  int id, maxHealth, def, dodge, speed;
-  String name;
-  Range damage;
+  final int id, maxHealth, def, dodge, speed;
+  final String name;
+  final Range damage;
 
-  int[] attackIndices;
+  final int[] attackIndices;
   int health, poison;
   boolean dead;
 
   Entity(int id, String name, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
     this.id = id;
+    this.name = name;
     this.maxHealth = maxHealth;
     this.damage = damage;
     this.def = def;
@@ -30,13 +31,18 @@ class Entity {
     this.health = 0;
     this.dead = true;
   }
+  
+  Entity copy() {
+    return new Entity(id, name, maxHealth, damage, def, dodge, speed, attackIndices);
+  }
 }
 
 class Attack {
-  String name;
-  int id, damageMod, poison;
+  final String name;
+  final int id, damageMod, poison;
 
   Attack(int id, String name, int damageMod, int poison) {
+    this.id = id;
     this.name = name;
     this.damageMod = damageMod;
     this.poison = poison;
@@ -56,4 +62,21 @@ class Attack {
       target.die();
     }
   }
+}
+
+class Team {
+  
+  final Entity[] members;
+  
+  Team(ArrayList<Entity> choices, int... ids) {
+    members = new Entity[ids.length];
+    for (int i = 0; i < ids.length; i++) {
+      members[i] = choices.get(ids[i]).copy();
+    }
+  }
+  
+  Team(Entity... members) {
+    this.members = members;
+  }
+  
 }

@@ -1,7 +1,17 @@
 [
 	{
 		"name": "Slap",
-		"damage": -60,
+		"damage": 0,
 		"poison": 0
+	},
+	{
+		"name": "Punch",
+		"damage": 20,
+		"poison": 0
+	},
+	{
+		"name": "Mind Read",
+		"damage": -80,
+		"poison": 2
 	},
 ]
