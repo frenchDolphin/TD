@@ -23,19 +23,18 @@ abstract static class Scene {
 // IMPLEMENTATIONS
 class BattleScene extends Scene {
 
-  Entity[] enemies = {
-    new Biter(), 
-    new Biter()
+  Entity[] currentEnemies = {
+    enemies.get(0)
   };
 
-  Entity[] heroes = {
-    new WarHero()
+  Entity[] currentHeroes = {
+    heroes.get(0)
   };
 
-  Hitbox[] hitboxes = new Hitbox[enemies.length];
+  Hitbox[] hitboxes = new Hitbox[currentEnemies.length];
 
   BattleScene() {
-    for (int i = 0; i < enemies.length; i++) {
+    for (int i = 0; i < currentEnemies.length; i++) {
       hitboxes[i] = new Hitbox(250 + (i * 50), 50, 25, 50);
     }
   }
@@ -46,7 +45,7 @@ class BattleScene extends Scene {
   void render() {
     for (int i = 0; i < hitboxes.length; i++) {
       Hitbox box = hitboxes[i];
-      Entity enemy = enemies[i];
+      Entity enemy = currentEnemies[i];
 
       if (enemy.dead) {
         fill(0);
@@ -63,7 +62,7 @@ class BattleScene extends Scene {
     for (int i = 0; i < hitboxes.length; i++) {
       Hitbox box = hitboxes[i];
       if (box.contains(mouseX, mouseY)) {
-        enemies[i].attack(enemies[i], 0);
+        currentEnemies[i].attack(currentEnemies[i], 0);
       }
     }
   }

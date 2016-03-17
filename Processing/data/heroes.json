@@ -1,0 +1,10 @@
+[
+	{
+		"name": "War Hero",
+		"health": 8,
+		"damage": [2, 4],
+		"def": 10,
+		"dodge": 5,
+		"attacks": [1, 2, 3, 4]
+	},
+]

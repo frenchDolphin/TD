@@ -1,5 +1,4 @@
 class Hitbox {
-
   int x, y, bWidth, bHeight;
 
   Hitbox(int x, int y, int bWidth, int bHeight) {
@@ -18,16 +17,18 @@ class Hitbox {
 }
 
 class Range {
-  
   int min, max;
-  
+
+  Range(JSONArray values) {
+    this(values.getInt(0, 0), values.getInt(1, 0));
+  }
+
   Range(int min, int max) {
     this.min = min;
     this.max = max;
   }
-  
+
   int getRandom() {
     return int(random(min, max));
   }
-  
 }

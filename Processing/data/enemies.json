@@ -1,0 +1,9 @@
+[
+	{
+		"name": "Biter",
+		"health": 8,
+		"damage": [1, 3],
+		"def": 5,
+		"attacks": [0]
+	},
+]

@@ -1,18 +1,21 @@
-abstract class Entity {
+class Entity {
 
-  int maxHealth, prot, dodge, speed;
+  int id, maxHealth, def, dodge, speed;
+  String name;
   Range damage;
 
-  ArrayList<Attack> attacks;
+  int[] attackIndices;
   int health, poison;
   boolean dead;
 
-  Entity(int maxHealth, Range damage, int prot, int dodge, int speed) {
+  Entity(int id, String name, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
+    this.id = id;
     this.maxHealth = maxHealth;
     this.damage = damage;
-    this.prot = prot;
+    this.def = def;
     this.dodge = dodge;
     this.speed = speed;
+    this.attackIndices = attackIndices;
 
     this.health = maxHealth;
     this.poison = 0;
@@ -20,7 +23,7 @@ abstract class Entity {
   }
 
   void attack(Entity other, int attackIndex) {
-    attacks.get(attackIndex).perform(this, other);
+    attacks.get(attackIndices[attackIndex]).perform(this, other);
   }
 
   void die() {
@@ -30,59 +33,27 @@ abstract class Entity {
 }
 
 class Attack {
+  String name;
+  int id, damageMod, poison;
 
-  int damageMod, poison;
-
-  Attack() {
-    this(0, 0);
-  }
-
-  Attack(int damageMod) {
-    this(damageMod, 0);
-  }
-
-  Attack(int damageMod, int poison) {
+  Attack(int id, String name, int damageMod, int poison) {
+    this.name = name;
     this.damageMod = damageMod;
     this.poison = poison;
   }
 
   void perform(Entity attacker, Entity target) {
     if (random(0, 100) > target.dodge) {
-      float rawDamage = attacker.damage.getRandom() * (1 + (target.prot / 100.0));
-      float protFactor = (1 - (target.prot / 100.0));
-      target.health -= rawDamage * protFactor;
+      float rawDamage = attacker.damage.getRandom() * (1 + (this.damageMod / 100.0));
+      float defFactor = (1 - (target.def / 100.0));
+      target.health -= rawDamage * defFactor;
     }
 
-    if (this.poison > target.poison) {
-      target.poison = this.poison;
-    }
+    // poison the target
+    target.poison += this.poison;
 
     if (target.health <= 0) {
       target.die();
     }
-  }
-}
-
-// IMPLEMENTATIONS
-
-class Biter extends Entity {
-
-  Biter() {
-    // 8 health, 2-3 damage, 5% protection, 0% dodge chance, 5 speed
-    super(8, new Range(2, 3), 5, 0, 5);
-
-    attacks = new ArrayList();
-    attacks.add(new Attack());
-  }
-}
-
-class WarHero extends Entity {
-
-  WarHero() {
-    // 8 health, 3-4 damage, 5% protection, 0% dodge chance, 5 speed
-    super(12, new Range(3, 4), 0, 10, 3);
-
-    attacks = new ArrayList();
-    attacks.add(new Attack());
   }
 }
