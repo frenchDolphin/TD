@@ -46,6 +46,7 @@ void loadEntities(String src, ArrayList out) {
 
       int id = out.size();
       String name = entity.getString("name", "");
+      String imgPath = entity.getString("imgPath", "");
       int health = entity.getInt("health", 1);
       int def = entity.getInt("def", 0);
       int dodge = entity.getInt("dodge", 0);
@@ -54,7 +55,7 @@ void loadEntities(String src, ArrayList out) {
       Range damage = new Range(entity.getJSONArray("damage"));
       int[] attackIndices = entity.getJSONArray("attacks").getIntArray();
 
-      Entity loaded = new Entity(id, name, health, damage, def, dodge, speed, attackIndices);
+      Entity loaded = new Entity(id, name, imgPath, health, damage, def, dodge, speed, attackIndices);
       out.add(loaded);
     }
   } 

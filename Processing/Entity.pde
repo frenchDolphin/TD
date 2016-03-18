@@ -1,16 +1,19 @@
 class Entity {
 
+  PImage sprite;
+  
   final int id, maxHealth, def, dodge, speed;
-  final String name;
+  final String name, imgPath;
   final Range damage;
 
   final int[] attackIndices;
   int health, poison;
   boolean dead;
 
-  Entity(int id, String name, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
+  Entity(int id, String name, String imgPath, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
     this.id = id;
     this.name = name;
+    this.imgPath = imgPath;
     this.maxHealth = maxHealth;
     this.damage = damage;
     this.def = def;
@@ -21,6 +24,8 @@ class Entity {
     this.health = maxHealth;
     this.poison = 0;
     this.dead = false;
+    
+    sprite = loadImage(imgPath);
   }
 
   void attack(Entity other, int attackIndex) {
@@ -33,7 +38,7 @@ class Entity {
   }
   
   Entity copy() {
-    return new Entity(id, name, maxHealth, damage, def, dodge, speed, attackIndices);
+    return new Entity(id, name, imgPath, maxHealth, damage, def, dodge, speed, attackIndices);
   }
 }
 

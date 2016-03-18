@@ -35,13 +35,13 @@ class BattleScene extends Scene {
     enemyHitboxes = new Hitbox[currentEnemies.members.length];
 
     for (int i = 0; i < currentHeroes.members.length; i++) {
-      heroHitboxes[i] = new Hitbox(50 + (i * 50), 50, 25, 50);
+      heroHitboxes[i] = new Hitbox(100 + (i * currentHeroes.members[i].sprite.width), 100, currentHeroes.members[i].sprite.width, currentHeroes.members[i].sprite.height);
     }
 
     for (int i = 0; i < currentEnemies.members.length; i++) {
-      enemyHitboxes[i] = new Hitbox(250 + (i * 50), 50, 25, 50);
+      enemyHitboxes[i] = new Hitbox(400 + (i * currentEnemies.members[i].sprite.width), 100, currentEnemies.members[i].sprite.width, currentEnemies.members[i].sprite.height);
     }
-    
+
     selectedHero = currentHeroes.members[0];
   }
 
@@ -54,19 +54,18 @@ class BattleScene extends Scene {
       Entity hero = currentHeroes.members[i];
 
       if (hero.dead) {
-        fill(0);
-        stroke(255);
+        tint(0);
       } else {
-        fill(255);
-        
+        tint(255);
+
         if (hero == selectedHero) {
-          stroke(0, 0, 255);
+          tint(0, 0, 255);
         } else {
-          stroke(0);
+          tint(255);
         }
       }
 
-      rect(box.x, box.y, box.bWidth, box.bHeight);
+      image(hero.sprite, box.x, box.y);
       text(hero.health, box.x, box.y);
     }
 
@@ -74,14 +73,13 @@ class BattleScene extends Scene {
       Hitbox box = enemyHitboxes[i];
       Entity enemy = currentEnemies.members[i];
 
-      stroke(255, 0, 0);
       if (enemy.dead) {
-        fill(0);
+        tint(0);
       } else {
-        fill(255);
+        tint(255);
       }
 
-      rect(box.x, box.y, box.bWidth, box.bHeight);
+      image(enemy.sprite, box.x, box.y);
       text("Health: " + enemy.health, box.x, box.y);
     }
   }
