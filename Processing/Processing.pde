@@ -7,6 +7,7 @@ Team party;
 
 // Gameloop-related stuff
 TimeManager time;
+Scene currentScene;
 
 // Rendering-related stuff
 final color RED = color(255, 0, 0);
@@ -24,7 +25,7 @@ void setup() {
   Team versus = new Team(enemies, 0, 0);
 
   time = new TimeManager();
-  Scene.setCurrentScene(new BattleScene(party, versus));
+  currentScene = new BattleScene(party, versus);
 }
 
 void loadAttacks(String src, ArrayList out) {
@@ -80,8 +81,8 @@ void draw() {
   // update game logic once for every tick passed
   int ticksPassed = 0;
   while (time.doTick()) {
-    Scene.getCurrentScene().tick(time);
-    
+    currentScene.tick(time);
+
     // limit the number of iterations to 10
     ticksPassed++;
     if (ticksPassed >= 10) {
@@ -90,13 +91,17 @@ void draw() {
   }
 
   background(255);
-  Scene.getCurrentScene().render(time);
+  currentScene.render(time);
 }
 
 void mousePressed() {
-  Scene.getCurrentScene().mousePressed();
+  currentScene.mousePressed();
 }
 
 void keyPressed() {
-  Scene.getCurrentScene().keyPressed();
+  // DEBUG
+  currentScene = new BattleScene(party, new Team(enemies, 0, 0));
+  // END-DEBUG
+
+  currentScene.keyPressed();
 }

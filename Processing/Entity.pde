@@ -26,13 +26,16 @@ class Entity {
     this.dead = false;
 
     sprite = loadImage("sprites/" + imgSrc);
+    sprite.resize(50, 0);
   }
 
   void tick() {
-    this.health -= this.poison;
-    this.poison = floor(this.poison / 2.0);
+    if (!this.dead) {
+      this.health -= this.poison;
+      this.poison = floor(this.poison / 2.0);
 
-    this.checkDead();
+      this.checkDead();
+    }
   }
 
   void attack(Entity target, int attackIndex) {
