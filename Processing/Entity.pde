@@ -1,19 +1,19 @@
 class Entity {
 
   PImage sprite;
-  
+
   final int id, maxHealth, def, dodge, speed;
-  final String name, imgPath;
+  final String name, imgSrc;
   final Range damage;
 
   final int[] attackIndices;
   int health, poison;
   boolean dead;
 
-  Entity(int id, String name, String imgPath, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
+  Entity(int id, String name, String imgSrc, int maxHealth, Range damage, int def, int dodge, int speed, int[] attackIndices) {
     this.id = id;
     this.name = name;
-    this.imgPath = imgPath;
+    this.imgSrc = imgSrc;
     this.maxHealth = maxHealth;
     this.damage = damage;
     this.def = def;
@@ -24,21 +24,36 @@ class Entity {
     this.health = maxHealth;
     this.poison = 0;
     this.dead = false;
-    
-    sprite = loadImage(imgPath);
+
+    sprite = loadImage("sprites/" + imgSrc);
   }
 
-  void attack(Entity other, int attackIndex) {
-    attacks.get(attackIndices[attackIndex]).perform(this, other);
+  void tick() {
+    this.health -= this.poison;
+    this.poison = floor(this.poison / 2.0);
+
+    this.checkDead();
+  }
+
+  void attack(Entity target, int attackIndex) {
+    if (!target.dead) {
+      attacks.get(attackIndices[attackIndex]).perform(this, target);
+    }
+  }
+
+  void checkDead() {
+    if (this.health <= 0) {
+      this.die();
+    }
   }
 
   void die() {
     this.health = 0;
     this.dead = true;
   }
-  
+
   Entity copy() {
-    return new Entity(id, name, imgPath, maxHealth, damage, def, dodge, speed, attackIndices);
+    return new Entity(id, name, imgSrc, maxHealth, damage, def, dodge, speed, attackIndices);
   }
 }
 
@@ -63,25 +78,23 @@ class Attack {
     // poison the target
     target.poison += this.poison;
 
-    if (target.health <= 0) {
-      target.die();
-    }
+    // check if the target was killed
+    target.checkDead();
   }
 }
 
 class Team {
-  
+
   final Entity[] members;
-  
+
   Team(ArrayList<Entity> choices, int... ids) {
     members = new Entity[ids.length];
     for (int i = 0; i < ids.length; i++) {
       members[i] = choices.get(ids[i]).copy();
     }
   }
-  
+
   Team(Entity... members) {
     this.members = members;
   }
-  
 }
