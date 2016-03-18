@@ -80,7 +80,7 @@ void draw() {
   // update game logic once for every tick passed
   int ticksPassed = 0;
   while (time.doTick()) {
-    Scene.getCurrentScene().tick();
+    Scene.getCurrentScene().tick(time);
     
     // limit the number of iterations to 10
     ticksPassed++;
@@ -89,8 +89,8 @@ void draw() {
     }
   }
 
-  background(204);
-  Scene.getCurrentScene().render();
+  background(255);
+  Scene.getCurrentScene().render(time);
 }
 
 void mousePressed() {

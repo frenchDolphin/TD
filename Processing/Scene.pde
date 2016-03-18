@@ -10,8 +10,8 @@ abstract static class Scene {
     currentScene = newScene;
   }
 
-  abstract void tick();
-  abstract void render();
+  abstract void tick(TimeManager time);
+  abstract void render(TimeManager time);
 
   void mousePressed() {
   }
@@ -45,7 +45,7 @@ class BattleScene extends Scene {
     selectedHero = currentHeroes.members[0];
   }
 
-  void tick() {
+  void tick(TimeManager time) {
     for (int i = 0; i < heroHitboxes.length; i++) {
       currentHeroes.members[i].tick();
     }
@@ -55,7 +55,19 @@ class BattleScene extends Scene {
     }
   }
 
-  void render() {
+  void render(TimeManager time) {
+    float halfTPT = time.timePerTick / 2.0;
+    if (time.tickDelta >= halfTPT) {
+      color tickIndicatorColor = color(255, 0, 0, map(time.tickDelta - halfTPT, halfTPT, 0, 0, 255));
+
+      noStroke();
+      fill(tickIndicatorColor);
+      rect(0, 0, width, height);
+
+      fill(255);
+      rect(15, 15, width - 30, height - 30);
+    }
+
     for (int i = 0; i < heroHitboxes.length; i++) {
       Hitbox box = heroHitboxes[i];
       Entity hero = currentHeroes.members[i];

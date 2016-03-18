@@ -19,10 +19,9 @@ class Hitbox {
 class TimeManager {
 
   // frequency of ticks
-  float timePerTick = 2000.0;
+  int timePerTick = 2000;
 
-  int last;
-  float frameDelta, tickDelta;
+  int last, frameDelta, tickDelta;
 
   void record() {
     frameDelta = millis() - last;
