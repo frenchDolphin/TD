@@ -1,15 +1,5 @@
 abstract static class Scene {
 
-  static Scene currentScene;
-
-  static Scene getCurrentScene() {
-    return currentScene;
-  }
-
-  static void setCurrentScene(Scene newScene) {
-    currentScene = newScene;
-  }
-
   abstract void tick(TimeManager time);
   abstract void render(TimeManager time);
 
@@ -35,11 +25,15 @@ class BattleScene extends Scene {
     enemyHitboxes = new Hitbox[currentEnemies.members.length];
 
     for (int i = 0; i < currentHeroes.members.length; i++) {
-      heroHitboxes[i] = new Hitbox(100 + (i * (currentHeroes.members[i].sprite.width + 5)), 100, currentHeroes.members[i].sprite.width, currentHeroes.members[i].sprite.height);
+      int x = 100 + (i * (currentHeroes.members[i].sprite.width + 5));
+      int y = 150 - currentHeroes.members[i].sprite.width;
+      heroHitboxes[i] = new Hitbox(x, y, currentHeroes.members[i].sprite.width, currentHeroes.members[i].sprite.height);
     }
 
     for (int i = 0; i < currentEnemies.members.length; i++) {
-      enemyHitboxes[i] = new Hitbox(400 + (i * (currentEnemies.members[i].sprite.width + 5)), 100, currentEnemies.members[i].sprite.width, currentEnemies.members[i].sprite.height);
+      int x = 400 + (i * (currentEnemies.members[i].sprite.width + 5));
+      int y = 150 - currentEnemies.members[i].sprite.width;
+      enemyHitboxes[i] = new Hitbox(x, y, currentEnemies.members[i].sprite.width, currentEnemies.members[i].sprite.height);
     }
 
     selectedHero = currentHeroes.members[0];
@@ -57,8 +51,8 @@ class BattleScene extends Scene {
 
   void render(TimeManager time) {
     float halfTPT = time.timePerTick / 2.0;
-    if (time.tickDelta >= halfTPT) {
-      color tickIndicatorColor = color(255, 0, 0, map(time.tickDelta - halfTPT, halfTPT, 0, 0, 255));
+    if (time.tickDelta <= halfTPT) {
+      color tickIndicatorColor = color(255, 0, 0, map(time.tickDelta, halfTPT, 0, 0, 255));
 
       noStroke();
       fill(tickIndicatorColor);
@@ -68,20 +62,26 @@ class BattleScene extends Scene {
       rect(15, 15, width - 30, height - 30);
     }
 
+    // DEBUG
+    Hitbox hb = enemyHitboxes[0];
+
+    stroke(0);
+    line(hb.x, hb.y, hb.x + hb.bWidth, hb.y);
+    line(hb.x + hb.bWidth, hb.y, hb.x + hb.bWidth, hb.y + hb.bHeight);
+    line(hb.x, hb.y + hb.bHeight, hb.x + hb.bWidth, hb.y + hb.bHeight);
+    line(hb.x, hb.y, hb.x, hb.y + hb.bHeight);
+    // END-DEBUG
+
     for (int i = 0; i < heroHitboxes.length; i++) {
       Hitbox box = heroHitboxes[i];
       Entity hero = currentHeroes.members[i];
 
       if (hero.dead) {
         tint(0);
+      } else if (hero == selectedHero) {
+        tint(204);
       } else {
-        tint(255);
-
-        if (hero == selectedHero) {
-          tint(204);
-        } else {
-          tint(255);
-        }
+        noTint();
       }
 
       image(hero.sprite, box.x, box.y);
