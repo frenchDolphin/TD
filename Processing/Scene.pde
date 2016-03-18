@@ -10,7 +10,7 @@ abstract static class Scene {
     currentScene = newScene;
   }
 
-  abstract void update();
+  abstract void tick();
   abstract void render();
 
   void mousePressed() {
@@ -35,17 +35,24 @@ class BattleScene extends Scene {
     enemyHitboxes = new Hitbox[currentEnemies.members.length];
 
     for (int i = 0; i < currentHeroes.members.length; i++) {
-      heroHitboxes[i] = new Hitbox(100 + (i * currentHeroes.members[i].sprite.width), 100, currentHeroes.members[i].sprite.width, currentHeroes.members[i].sprite.height);
+      heroHitboxes[i] = new Hitbox(100 + (i * (currentHeroes.members[i].sprite.width + 5)), 100, currentHeroes.members[i].sprite.width, currentHeroes.members[i].sprite.height);
     }
 
     for (int i = 0; i < currentEnemies.members.length; i++) {
-      enemyHitboxes[i] = new Hitbox(400 + (i * currentEnemies.members[i].sprite.width), 100, currentEnemies.members[i].sprite.width, currentEnemies.members[i].sprite.height);
+      enemyHitboxes[i] = new Hitbox(400 + (i * (currentEnemies.members[i].sprite.width + 5)), 100, currentEnemies.members[i].sprite.width, currentEnemies.members[i].sprite.height);
     }
 
     selectedHero = currentHeroes.members[0];
   }
 
-  void update() {
+  void tick() {
+    for (int i = 0; i < heroHitboxes.length; i++) {
+      currentHeroes.members[i].tick();
+    }
+
+    for (int i = 0; i < enemyHitboxes.length; i++) {
+      currentEnemies.members[i].tick();
+    }
   }
 
   void render() {
@@ -59,20 +66,27 @@ class BattleScene extends Scene {
         tint(255);
 
         if (hero == selectedHero) {
-          tint(0, 0, 255);
+          tint(204);
         } else {
           tint(255);
         }
       }
 
       image(hero.sprite, box.x, box.y);
-      text(hero.health, box.x, box.y);
+
+      float healthWidth = map(hero.health, 0, hero.maxHealth, 0, box.bWidth);
+      color healthColor = hero.health > hero.maxHealth / 3.0 ? GREEN : RED;
+
+      stroke(0);
+      fill(healthColor);
+      rect(box.x, box.y - 20, healthWidth, 15);
     }
 
     for (int i = 0; i < enemyHitboxes.length; i++) {
       Hitbox box = enemyHitboxes[i];
       Entity enemy = currentEnemies.members[i];
 
+      stroke(0);
       if (enemy.dead) {
         tint(0);
       } else {
@@ -80,7 +94,15 @@ class BattleScene extends Scene {
       }
 
       image(enemy.sprite, box.x, box.y);
-      text("Health: " + enemy.health, box.x, box.y);
+
+      if (enemy.health > 0) {
+        float healthWidth = map(enemy.health, 0, enemy.maxHealth, 0, box.bWidth);
+        color healthColor = enemy.health > enemy.maxHealth / 3.0 ? GREEN : RED;
+
+        stroke(0);
+        fill(healthColor);
+        rect(box.x, box.y - 20, healthWidth, 15);
+      }
     }
   }
 

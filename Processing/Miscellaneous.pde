@@ -16,6 +16,30 @@ class Hitbox {
   }
 }
 
+class TimeManager {
+
+  // frequency of ticks
+  float timePerTick = 2000.0;
+
+  int last;
+  float frameDelta, tickDelta;
+
+  void record() {
+    frameDelta = millis() - last;
+    tickDelta += frameDelta;
+    last = millis();
+  }
+
+  boolean doTick() {
+    boolean canTick = tickDelta >= timePerTick;
+    if (canTick) {
+      tickDelta -= timePerTick;
+      return true;
+    }
+    return false;
+  }
+}
+
 class Range {
   final int min, max;
 

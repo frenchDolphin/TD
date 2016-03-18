@@ -11,7 +11,7 @@
 	},
 	{
 		"name": "Mind Read",
-		"damage": -80,
-		"poison": 2
+		"damage": -100,
+		"poison": 4
 	},
 ]
