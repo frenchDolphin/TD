@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Biter",
-		"imgSrc": "biter.png",
+		"imgPath": "sprites/biter.png",
 		"health": 8,
 		"damage": [1, 3],
 		"def": 5,

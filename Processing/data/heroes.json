@@ -1,7 +1,7 @@
 [
 	{
 		"name": "War Hero",
-		"imgSrc": "war_hero.png",
+		"imgPath": "sprites/war_hero.png",
 		"health": 18,
 		"damage": [2, 4],
 		"def": 10,
@@ -10,7 +10,7 @@
 	},
 	{
 		"name": "Mind Master",
-		"imgSrc": "mind_master.png",
+		"imgPath": "sprites/mind_master.png",
 		"health": 12,
 		"damage": [2, 4],
 		"def": 10,

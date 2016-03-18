@@ -1,17 +1,8 @@
-// Gameplay-related stuff
 static final ArrayList<Attack> attacks = new ArrayList();
 static final ArrayList<Entity> heroes = new ArrayList();
 static final ArrayList<Entity> enemies = new ArrayList();
 
 Team party;
-
-// Gameloop-related stuff
-TimeManager time;
-
-// Rendering-related stuff
-final color RED = color(255, 0, 0);
-final color GREEN = color(0, 255, 0);
-final color BLUE = color(0, 0, 255);
 
 void setup() {
   fullScreen();
@@ -22,8 +13,6 @@ void setup() {
 
   party = new Team(heroes, 0, 0, 1);
   Team versus = new Team(enemies, 0, 0);
-
-  time = new TimeManager();
   Scene.setCurrentScene(new BattleScene(party, versus));
 }
 
@@ -57,7 +46,7 @@ void loadEntities(String src, ArrayList out) {
 
       int id = out.size();
       String name = entity.getString("name", "");
-      String imgSrc = entity.getString("imgSrc", "");
+      String imgPath = entity.getString("imgPath", "");
       int health = entity.getInt("health", 1);
       int def = entity.getInt("def", 0);
       int dodge = entity.getInt("dodge", 0);
@@ -66,7 +55,7 @@ void loadEntities(String src, ArrayList out) {
       Range damage = new Range(entity.getJSONArray("damage"));
       int[] attackIndices = entity.getJSONArray("attacks").getIntArray();
 
-      Entity loaded = new Entity(id, name, imgSrc, health, damage, def, dodge, speed, attackIndices);
+      Entity loaded = new Entity(id, name, imgPath, health, damage, def, dodge, speed, attackIndices);
       out.add(loaded);
     }
   } 
@@ -76,20 +65,9 @@ void loadEntities(String src, ArrayList out) {
 }
 
 void draw() {
-  time.record();
-  // update game logic once for every tick passed
-  int ticksPassed = 0;
-  while (time.doTick()) {
-    Scene.getCurrentScene().tick();
-    
-    // limit the number of iterations to 10
-    ticksPassed++;
-    if (ticksPassed >= 10) {
-      break;
-    }
-  }
-
   background(204);
+
+  Scene.getCurrentScene().update();
   Scene.getCurrentScene().render();
 }
 
