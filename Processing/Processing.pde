@@ -14,8 +14,16 @@ final color RED = color(255, 0, 0);
 final color GREEN = color(0, 255, 0);
 final color BLUE = color(0, 0, 255);
 
+PFont titleFont;
+PFont headerFont;
+PFont gameFont;
+
 void setup() {
   fullScreen();
+  
+  titleFont = createFont("data/fonts/rothenbg.ttf", 12);
+  headerFont = createFont("data/fonts/belligerent.ttf", 12);
+  gameFont = createFont("data/fonts/rabiohead.ttf", 12);
 
   loadAttacks("attacks.json", attacks);
   loadEntities("heroes.json", heroes);

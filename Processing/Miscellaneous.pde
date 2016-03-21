@@ -19,7 +19,7 @@ class Hitbox {
 class TimeManager {
 
   // frequency of ticks
-  int timePerTick = 2000;
+  int timePerTick = 1500;
 
   int last, frameDelta, tickDelta;
 
