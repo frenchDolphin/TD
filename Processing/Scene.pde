@@ -64,18 +64,7 @@ public class BattleScene extends Scene {
       rect(15, 15, width - 30, height - 30);
     }
 
-    // DEBUG
-    Hitbox hb = currentEnemies.members[0].bounds;
-
-    stroke(0);
-    line(hb.x, hb.y, hb.x + hb.bWidth, hb.y);
-    line(hb.x + hb.bWidth, hb.y, hb.x + hb.bWidth, hb.y + hb.bHeight);
-    line(hb.x, hb.y + hb.bHeight, hb.x + hb.bWidth, hb.y + hb.bHeight);
-    line(hb.x, hb.y, hb.x, hb.y + hb.bHeight);
-
-    line(0, hb.y + hb.bHeight, width, hb.y + hb.bHeight);
-    // END-DEBUG
-
+    // render the title
     String text = "Time-Based Dungeon Crawler";
     fill(0);
     textFont(titleFont, 48);
@@ -84,7 +73,20 @@ public class BattleScene extends Scene {
     textFont(gameFont, 16);
     for (int i = 0; i < currentHeroes.members.length; i++) {
       Entity hero = currentHeroes.members[i];
+
       hero.render(hero == selectedHero);
+    }
+
+    int bY = selectedHero.bounds.y + selectedHero.bounds.bHeight + 50;
+    Hitbox bounds = new Hitbox(64, bY, 64, 64);
+
+    for (int i = 0; i < selectedHero.attackIndices.length; i++) {
+      Attack attack = attacks.get(selectedHero.attackIndices[i]);
+
+      if (attack.hasSprite()) {
+        attack.render(bounds);
+        bounds.x += bounds.bWidth + 5;
+      }
     }
 
     for (int i = 0; i < currentEnemies.members.length; i++) {

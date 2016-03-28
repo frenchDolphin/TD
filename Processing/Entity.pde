@@ -69,7 +69,7 @@ public class Entity {
     stroke(0);
     fill(healthColor);
     rect(bounds.x, bounds.y - 20, healthWidth, 10);
-    
+
     // character name
     float nameX = bounds.x + (bounds.bWidth / 2) - (textWidth(name) / 2);
     float nameY = bounds.y + bounds.bHeight + textAscent() + 5;
@@ -100,14 +100,27 @@ public class Entity {
 }
 
 class Attack {
-  final String name;
+  final String name, imgSrc;
   final int id, damageMod, poison;
 
-  Attack(int id, String name, int damageMod, int poison) {
+  PImage sprite;
+
+  Attack(int id, String name, String imgSrc, int damageMod, int poison) {
     this.id = id;
     this.name = name;
+    this.imgSrc = imgSrc;
     this.damageMod = damageMod;
     this.poison = poison;
+
+    this.sprite = loadImage("data/sprites/attacks/" + imgSrc);
+  }
+  
+  boolean hasSprite() {
+    return !(imgSrc == null || imgSrc.isEmpty());
+  }
+
+  void render(Hitbox bounds) {
+    image(sprite, bounds.x, bounds.y, bounds.bWidth, bounds.bHeight);
   }
 
   void perform(Entity attacker, Entity target) {

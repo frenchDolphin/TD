@@ -15,6 +15,6 @@
 		"damage": [2, 4],
 		"def": 10,
 		"dodge": 5,
-		"attacks": [2]
+		"attacks": [2, 3]
 	},
 ]

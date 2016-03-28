@@ -1,17 +1,26 @@
 [
 	{
 		"name": "Slap",
+		"imgSrc": "punch.png",
 		"damage": 0,
 		"poison": 0
 	},
 	{
 		"name": "Punch",
+		"imgSrc": "punch.png",
 		"damage": 20,
 		"poison": 0
 	},
 	{
 		"name": "Mind Read",
+		"imgSrc": "mind_read.png",
 		"damage": -100,
 		"poison": 4
+	},
+	{
+		"name": "Zap",
+		"imgSrc": "zap.png",
+		"damage": 120,
+		"poison": 0
 	},
 ]

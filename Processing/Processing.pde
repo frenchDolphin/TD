@@ -45,10 +45,11 @@ void loadAttacks(String src, ArrayList out) {
 
       int id = out.size();
       String name = attack.getString("name", "");
+      String imgSrc = attack.getString("imgSrc", "");
       int damage = attack.getInt("damage", 0);
       int poison = attack.getInt("poison", 0);
 
-      Attack loaded = new Attack(id, name, damage, poison);
+      Attack loaded = new Attack(id, name, imgSrc, damage, poison);
       out.add(loaded);
     }
   } 
